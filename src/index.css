@@ -1,0 +1,48 @@
+/* Import pixelated font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enhanced drag and drop styles */
+.drag-target {
+  transition: all 0.3s ease;
+}
+
+.drag-target.drag-over {
+  transform: scale(1.05);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #3b82f6;
+  border-width: 3px;
+}
+
+.drag-target:hover {
+  transform: scale(1.02);
+}
+
+/* Cyberpunk theme specific styles */
+
+.cyberpunk-border {
+  border-image: linear-gradient(45deg, #06b6d4, #ec4899) 1;
+}
+
+/* Cyberpunk2 Matrix theme styles */
+.cyberpunk2-font {
+  font-family: 'Share Tech Mono', 'Orbitron', monospace;
+}
+
+
+.cyberpunk2-border {
+  border: 1px solid #00ff00;
+}
+
+
+/* Matrix rain effect background */
+.matrix-bg {
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #000000 0%, #001100 100%);
+}
