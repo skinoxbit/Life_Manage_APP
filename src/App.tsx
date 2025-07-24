@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, Suspense } from 'react';
 import { DataProvider } from './contexts/DataContext';
 import { Sidebar } from './components/Sidebar';
-import Dashboard from './components/Dashboard';
-import { Notes } from './components/Notes';
-import { Calendar } from './components/Calendar';
-import { Reminders } from './components/Reminders';
-import { Inventory } from './components/Inventory';
-import { Lending } from './components/Lending';
-import { Settings } from './components/Settings';
+
+// Lazy-loaded route components for code-splitting
+const Dashboard = React.lazy(() => import('./components/Dashboard'));
+const Notes = React.lazy(() => import('./components/Notes').then(m => ({ default: m.Notes })));
+const Calendar = React.lazy(() => import('./components/Calendar').then(m => ({ default: m.Calendar })));
+const Reminders = React.lazy(() => import('./components/Reminders').then(m => ({ default: m.Reminders })));
+const Inventory = React.lazy(() => import('./components/Inventory').then(m => ({ default: m.Inventory })));
+const Lending = React.lazy(() => import('./components/Lending').then(m => ({ default: m.Lending })));
+const Settings = React.lazy(() => import('./components/Settings').then(m => ({ default: m.Settings })));
 
 import { useTheme } from './contexts/ThemeContext';
 
@@ -41,19 +43,31 @@ function App() {
 
   return (
     <DataProvider>
-      <div className={`flex h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 ${
-        theme === 'cyberpunk2' ? 'matrix-bg cyberpunk2-font' : ''
-      }`}>
+      <div
+        className={`flex h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 ${
+          theme === 'cyberpunk2' ? 'matrix-bg cyberpunk2-font' : ''
+        }`}
+      >
         <Sidebar
           activeView={activeView}
           setActiveView={setActiveView}
           collapsed={sidebarCollapsed}
           setCollapsed={setSidebarCollapsed}
         />
-        <main className={`flex-1 transition-all duration-300 ${
-          sidebarCollapsed ? 'ml-16' : 'ml-64'
-        }`}>
-          {renderActiveView()}
+        <main
+          className={`flex-1 transition-all duration-300 ${
+            sidebarCollapsed ? 'ml-16' : 'ml-64'
+          }`}
+        >
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-full w-full text-gray-500 dark:text-gray-400">
+                Loading…
+              </div>
+            }
+          >
+            {renderActiveView()}
+          </Suspense>
         </main>
       </div>
     </DataProvider>
